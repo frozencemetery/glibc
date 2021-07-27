@@ -51,6 +51,7 @@ FCT (const CHAR *pattern, const CHAR *string, const CHAR *string_end,
     _NL_CURRENT(LC_COLLATE, _NL_COLLATE_COLLSEQMB);
 # endif
 #endif
+  uint32_t nrules = _NL_CURRENT_WORD (LC_COLLATE, _NL_COLLATE_NRULES);
 
   while ((c = *p++) != L_('\0'))
     {
@@ -324,8 +325,6 @@ FCT (const CHAR *pattern, const CHAR *string, const CHAR *string_end,
                        diagnose a "used initialized" in a dead branch in the
                        findidx function.  */
                     UCHAR str;
-                    uint32_t nrules =
-                      _NL_CURRENT_WORD (LC_COLLATE, _NL_COLLATE_NRULES);
                     const CHAR *startp = p;
 
                     c = *++p;
@@ -437,8 +436,6 @@ FCT (const CHAR *pattern, const CHAR *string, const CHAR *string_end,
 
                     if (c == L_('[') && *p == L_('.'))
                       {
-                        uint32_t nrules =
-                          _NL_CURRENT_WORD (LC_COLLATE, _NL_COLLATE_NRULES);
                         const CHAR *startp = p;
                         size_t c1 = 0;
 
@@ -608,10 +605,12 @@ FCT (const CHAR *pattern, const CHAR *string, const CHAR *string_end,
                            various characters appear in the source
                            file.  A strange concept, nowhere
                            documented.  */
-                        uint32_t fcollseq;
-                        uint32_t lcollseq;
+                        uint32_t fcollseq = 0;
+                        uint32_t lcollseq = 1; /* Set higher than fcollseq.  */
                         UCHAR cend = *p++;
 
+			if (nrules != 0)
+			  {
 # if WIDE_CHAR_VERSION
                         /* Search in the 'names' array for the characters.  */
                         fcollseq = __collseq_table_lookup (collseq, fn);
@@ -629,13 +628,11 @@ FCT (const CHAR *pattern, const CHAR *string, const CHAR *string_end,
                         fcollseq = collseq[fn];
                         lcollseq = is_seqval ? cold : collseq[(UCHAR) cold];
 # endif
+			  }
 
                         is_seqval = false;
                         if (cend == L_('[') && *p == L_('.'))
                           {
-                            uint32_t nrules =
-                              _NL_CURRENT_WORD (LC_COLLATE,
-                                                _NL_COLLATE_NRULES);
                             const CHAR *startp = p;
                             size_t c1 = 0;
 
@@ -755,11 +752,11 @@ FCT (const CHAR *pattern, const CHAR *string, const CHAR *string_end,
                         /* XXX It is not entirely clear to me how to handle
                            characters which are not mentioned in the
                            collation specification.  */
-                        if (
+                        if (nrules != 0 && (
 # if WIDE_CHAR_VERSION
                             lcollseq == 0xffffffff ||
 # endif
-                            lcollseq <= fcollseq)
+                            lcollseq <= fcollseq))
                           {
                             /* We have to look at the upper bound.  */
                             uint32_t hcollseq;
@@ -789,6 +786,16 @@ FCT (const CHAR *pattern, const CHAR *string, const CHAR *string_end,
                             if (lcollseq <= hcollseq && fcollseq <= hcollseq)
                               goto matched;
                           }
+			else
+			  {
+			    /* No rules, but it is a range.  */
+
+			    if (cend == L_('\0'))
+			      return FNM_NOMATCH;
+
+			    if ((UCHAR) cold <= fn && fn <= cend)
+			      goto matched;
+			  }
 # if WIDE_CHAR_VERSION
                       range_not_matched:
 # endif

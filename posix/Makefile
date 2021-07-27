@@ -73,41 +73,133 @@ routines :=								      \
 	globfree64-time64
 
 aux		:= init-posix environ
-tests		:= test-errno tstgetopt testfnm runtests runptests \
-		   tst-preadwrite tst-preadwrite64 test-vfork regexbug1 \
-		   tst-mmap tst-mmap-offset tst-getaddrinfo tst-truncate \
-		   tst-truncate64 tst-fork tst-fnmatch tst-regexloc tst-dir \
-		   tst-chmod bug-regex1 bug-regex2 bug-regex3 bug-regex4 \
-		   tst-gnuglob tst-gnuglob64 tst-regex bug-regex6 bug-regex7 \
-		   bug-regex8 bug-regex9 bug-regex10 bug-regex11 bug-regex12 \
-		   bug-regex13 bug-regex14 bug-regex15 bug-regex16 \
-		   bug-regex17 bug-regex18 bug-regex19 \
-		   bug-regex21 bug-regex22 bug-regex23 bug-regex24 \
-		   bug-regex25 bug-regex26 bug-regex27 bug-regex28 \
-		   bug-regex29 bug-regex30 bug-regex31 bug-regex32 \
-		   tst-nice tst-nanosleep tst-regex2 \
-		   transbug tst-rxspencer tst-pcre tst-boost \
-		   bug-ga1 tst-vfork1 tst-vfork2 \
-		   tst-waitid tst-wait4 tst-wait3 \
-		   tst-getaddrinfo2 bug-glob2 bug-glob3 tst-sysconf \
-		   tst-execvp1 tst-execvp2 tst-execlp1 tst-execlp2 \
-		   tst-execv1 tst-execv2 tst-execl1 tst-execl2 \
-		   tst-execve1 tst-execve2 tst-execle1 tst-execle2 \
-		   tst-execvp3 tst-execvp4 \
-		   tst-execvpe1 tst-execvpe2 tst-execvpe3 tst-execvpe4 \
-		   tst-execvpe5 tst-execvpe6 \
-		   tst-getaddrinfo3 tst-fnmatch2 tst-cpucount tst-cpuset \
-		   bug-getopt1 bug-getopt2 bug-getopt3 bug-getopt4 \
-		   bug-getopt5 tst-getopt_long1 bug-regex34 bug-regex35 \
-		   tst-pathconf tst-rxspencer-no-utf8 \
-		   tst-fnmatch3 bug-regex36 \
-		   tst-fnmatch4 tst-fnmatch5 tst-fnmatch6 \
-		   tst-posix_spawn-fd tst-posix_spawn-setsid \
-		   tst-posix_fadvise tst-posix_fadvise64 \
-		   tst-sysconf-empty-chroot tst-glob_symlinks tst-fexecve \
-		   tst-glob-tilde test-ssize-max tst-spawn4 bug-regex37 \
-		   bug-regex38 tst-regcomp-truncated tst-spawn-chdir \
-		   tst-wordexp-nocmd tst-execveat tst-spawn5
+tests := \
+	bug-ga1 \
+	bug-getopt1 \
+	bug-getopt2 \
+	bug-getopt3 \
+	bug-getopt4 \
+	bug-getopt5 \
+	bug-glob2 \
+	bug-glob3 \
+	bug-regex1 \
+	bug-regex10 \
+	bug-regex11 \
+	bug-regex12 \
+	bug-regex13 \
+	bug-regex14 \
+	bug-regex15 \
+	bug-regex16 \
+	bug-regex17 \
+	bug-regex18 \
+	bug-regex19 \
+	bug-regex2 \
+	bug-regex21 \
+	bug-regex22 \
+	bug-regex23 \
+	bug-regex24 \
+	bug-regex25 \
+	bug-regex26 \
+	bug-regex27 \
+	bug-regex28 \
+	bug-regex29 \
+	bug-regex3 \
+	bug-regex30 \
+	bug-regex31 \
+	bug-regex32 \
+	bug-regex34 \
+	bug-regex35 \
+	bug-regex36 \
+	bug-regex37 \
+	bug-regex38 \
+	bug-regex4 \
+	bug-regex6 \
+	bug-regex7 \
+	bug-regex8 \
+	bug-regex9 \
+	runptests \
+	runtests \
+	test-errno \
+	testfnm \
+	test-ssize-max \
+	test-vfork regexbug1 \
+	transbug \
+	tst-boost \
+	tst-chmod \
+	tst-cpucount \
+	tst-cpuset \
+	tst-dir \
+	tst-execl1 \
+	tst-execl2 \
+	tst-execle1 \
+	tst-execle2 \
+	tst-execlp1 \
+	tst-execlp2 \
+	tst-execv1 \
+	tst-execv2 \
+	tst-execve1 \
+	tst-execve2 \
+	tst-execveat \
+	tst-execvp1 \
+	tst-execvp2 \
+	tst-execvp3 \
+	tst-execvp4 \
+	tst-execvpe1 \
+	tst-execvpe2 \
+	tst-execvpe3 \
+	tst-execvpe4 \
+	tst-execvpe5 \
+	tst-execvpe6 \
+	tst-fexecve \
+	tst-fnmatch \
+	tst-fnmatch2 \
+	tst-fnmatch3 \
+	tst-fnmatch4 \
+	tst-fnmatch5 \
+	tst-fnmatch6 \
+	tst-fnmatch7 \
+	tst-fork \
+	tst-getaddrinfo \
+	tst-getaddrinfo2 \
+	tst-getaddrinfo3 \
+	tstgetopt \
+	tst-getopt_long1 \
+	tst-glob_symlinks \
+	tst-glob-tilde \
+	tst-gnuglob \
+	tst-gnuglob64 \
+	tst-mmap \
+	tst-mmap-offset \
+	tst-nanosleep \
+	tst-nice \
+	tst-pathconf \
+	tst-pcre \
+	tst-posix_fadvise \
+	tst-posix_fadvise64 \
+	tst-posix_spawn-fd \
+	tst-posix_spawn-setsid \
+	tst-preadwrite \
+	tst-preadwrite64 \
+	tst-regcomp-truncated \
+	tst-regex \
+	tst-regex2 \
+	tst-regexloc \
+	tst-rxspencer \
+	tst-rxspencer-no-utf8 \
+	tst-spawn4 \
+	tst-spawn5 \
+	tst-spawn-chdir \
+	tst-sysconf \
+	tst-sysconf-empty-chroot \
+	tst-truncate \
+	tst-truncate64 \
+	tst-vfork1 \
+	tst-vfork2 \
+	tst-wait3 \
+	tst-wait4 \
+	tst-waitid \
+	tst-wordexp-nocmd \
+	# tests
 
 # Test for the glob symbol version that was replaced in glibc 2.27.
 ifeq ($(have-GLIBC_2.26)$(build-shared),yesyes)
@@ -190,9 +282,20 @@ $(objpfx)wordexp-tst.out: wordexp-tst.sh $(objpfx)wordexp-test
 	$(evaluate-test)
 endif
 
-LOCALES := cs_CZ.UTF-8 da_DK.ISO-8859-1 de_DE.ISO-8859-1 de_DE.UTF-8 \
-	   en_US.UTF-8 es_US.ISO-8859-1 es_US.UTF-8 ja_JP.EUC-JP tr_TR.UTF-8 \
-	   cs_CZ.ISO-8859-2
+LOCALES := \
+	C.UTF-8 \
+	cs_CZ.UTF-8 \
+	da_DK.ISO-8859-1 \
+	de_DE.ISO-8859-1 \
+	de_DE.UTF-8 \
+	en_US.UTF-8 \
+	es_US.ISO-8859-1 \
+	es_US.UTF-8 \
+	ja_JP.EUC-JP \
+	tr_TR.UTF-8 \
+	cs_CZ.ISO-8859-2 \
+	# LOCALES
+
 include ../gen-locales.mk
 
 $(objpfx)bug-regex1.out: $(gen-locales)
@@ -222,6 +325,7 @@ $(objpfx)tst-regexloc.out: $(gen-locales)
 $(objpfx)tst-rxspencer.out: $(gen-locales)
 $(objpfx)tst-rxspencer-no-utf8.out: $(gen-locales)
 $(objpfx)tst-regcomp-truncated.out: $(gen-locales)
+$(objpfx)tst-fnmatch7.out: $(gen-locales)
 endif
 
 # If we will use the generic uname implementation, we must figure out what
